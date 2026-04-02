@@ -1651,3 +1651,25 @@ Copyright (c) 2005-2023 NVIDIA Corporation
 Built on Fri_Jan__6_16:45:21_PST_2023
 Cuda compilation tools, release 12.0, V12.0.140
 Build cuda_12.0.r12.0/compiler.32267302_0
+
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ nvidia-smi
+Thu Apr  2 15:17:17 2026
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.44                 Driver Version: 595.59         CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 3050        On  |   00000000:01:00.0  On |                  N/A |
+|  0%   41C    P8              8W /  130W |     941MiB /   8192MiB |      8%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A              32      G   /Xwayland                             N/A      |
++-----------------------------------------------------------------------------------------+
