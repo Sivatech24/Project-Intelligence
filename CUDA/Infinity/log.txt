@@ -1849,3 +1849,8 @@ infinity_gen.cu(16): error: identifier "fract" is undefined
 1 error detected in the compilation of "infinity_gen.cu".
 tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ nano infinity_gen.cu
 tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ nvcc infinity_gen.cu -o infinity_gen
+
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ ./infinity_gen
+Rendering on GPU...
+Saving images...
+Done! Files saved as infinity.png and infinity.jpg
