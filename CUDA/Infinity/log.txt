@@ -1813,3 +1813,39 @@ Processing triggers for man-db (2.12.0-4build2) ...
 Processing triggers for install-info (7.1-3build2) ...
 Processing triggers for libc-bin (2.39-0ubuntu8.7) ...
 tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ g++ opengl_infinity.cpp -lglfw -lGL -lm -o infinity_app
+
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ ./infinity_app
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ nano infinity_gen.cu
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ nvcc infinity_gen.cu -o infinity_gen
+infinity_gen.cu:8:10: fatal error: stb_image_write.h: No such file or directory
+    8 | #include "stb_image_write.h"
+      |          ^~~~~~~~~~~~~~~~~~~
+compilation terminated.
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ wget https://raw.githubusercontent.com/nothings/stb/master/stb_image_write.h
+--2026-04-02 15:23:43--  https://raw.githubusercontent.com/nothings/stb/master/stb_image_write.h
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.110.133, 185.199.108.133, 185.199.109.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.110.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 71221 (70K) [text/plain]
+Saving to: ‘stb_image_write.h’
+
+stb_image_write.h          100%[========================================>]  69.55K  --.-KB/s    in 0.03s
+
+2026-04-02 15:23:43 (2.09 MB/s) - ‘stb_image_write.h’ saved [71221/71221]
+
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ nvcc infinity_gen.cu -o infinity_gen
+infinity_gen.cu(16): error: identifier "fract" is undefined
+
+1 error detected in the compilation of "infinity_gen.cu".
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ ls
+cuda-keyring_1.1-1_all.deb  infinity_app  infinity_gen.cu  log.txt  opengl_infinity.cpp  stb_image_write.h
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ curl -O https://raw.githubusercontent.com/nothings/stb/master/stb_image_write.h
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 71221  100 71221    0     0   765k      0 --:--:-- --:--:-- --:--:--  772k
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ nvcc infinity_gen.cu -o infinity_gen
+infinity_gen.cu(16): error: identifier "fract" is undefined
+
+1 error detected in the compilation of "infinity_gen.cu".
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ nano infinity_gen.cu
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ nvcc infinity_gen.cu -o infinity_gen
