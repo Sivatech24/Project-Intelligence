@@ -724,3 +724,64 @@ Reading state information... Done
 4 packages can be upgraded. Run 'apt list --upgradable' to see them.
 
 
+sudo apt install -y cuda-toolkit-12-3
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ nsight-systems-2023.3.3 : Depends: libtinfo5 but it is not installable
+E: Unable to correct problems, you have held broken packages.
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ sudo apt install -y cuda-toolkit-12-3 --no-install-recommends
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ nsight-systems-2023.3.3 : Depends: libtinfo5 but it is not installable
+E: Unable to correct problems, you have held broken packages.
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ nsight-systems-2023.3.3 : Depends: libtinfo5 but it is not installable
+nsight-systems-2023.3.3: command not found
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ sudo apt install -y cuda-toolkit-12-3 --no-install-recommends
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ nsight-systems-2023.3.3 : Depends: libtinfo5 but it is not installable
+E: Unable to correct problems, you have held broken packages.
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ sudo apt install libtinfo5
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Package libtinfo5 is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+E: Package 'libtinfo5' has no installation candidate
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ wget http://archive.ubuntu.com/ubuntu/pool/main/n/ncurses/libtinfo5_6.2-0ubuntu2_amd64.deb
+sudo dpkg -i libtinfo5_6.2-0ubuntu2_amd64.deb
+--2026-04-02 14:57:07--  http://archive.ubuntu.com/ubuntu/pool/main/n/ncurses/libtinfo5_6.2-0ubuntu2_amd64.deb
+Resolving archive.ubuntu.com (archive.ubuntu.com)... 91.189.92.24, 185.125.190.81, 91.189.91.83, ...
+Connecting to archive.ubuntu.com (archive.ubuntu.com)|91.189.92.24|:80... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2026-04-02 14:57:07 ERROR 404: Not Found.
+
+dpkg: error: cannot access archive 'libtinfo5_6.2-0ubuntu2_amd64.deb': No such file or directory
+
+
