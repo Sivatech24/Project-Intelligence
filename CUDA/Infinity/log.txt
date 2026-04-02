@@ -678,3 +678,49 @@ Setting up dkms (3.0.11-1ubuntu13) ...
 Setting up build-essential (12.10ubuntu1) ...
 Processing triggers for man-db (2.12.0-4build2) ...
 Processing triggers for libc-bin (2.39-0ubuntu8.7) ...
+
+ wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
+sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
+--2026-04-02 14:54:51--  https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
+Resolving developer.download.nvidia.com (developer.download.nvidia.com)... 23.211.142.110, 23.211.142.117
+Connecting to developer.download.nvidia.com (developer.download.nvidia.com)|23.211.142.110|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 190 [application/octet-stream]
+Saving to: ‘cuda-wsl-ubuntu.pin’
+
+cuda-wsl-ubuntu.pin        100%[========================================>]     190  --.-KB/s    in 0s
+
+2026-04-02 14:54:51 (5.68 MB/s) - ‘cuda-wsl-ubuntu.pin’ saved [190/190]
+
+tech24@DESKTOP-1VHTLCM:~/ProjectI/CUDA/Infinity$ wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt update
+--2026-04-02 14:54:57--  https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-keyring_1.1-1_all.deb
+Resolving developer.download.nvidia.com (developer.download.nvidia.com)... 23.55.244.120, 23.55.244.122
+Connecting to developer.download.nvidia.com (developer.download.nvidia.com)|23.55.244.120|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4328 (4.2K) [application/x-deb]
+Saving to: ‘cuda-keyring_1.1-1_all.deb’
+
+cuda-keyring_1.1-1_all.deb 100%[========================================>]   4.23K  --.-KB/s    in 0s
+
+2026-04-02 14:55:00 (96.9 MB/s) - ‘cuda-keyring_1.1-1_all.deb’ saved [4328/4328]
+
+Selecting previously unselected package cuda-keyring.
+(Reading database ... 76999 files and directories currently installed.)
+Preparing to unpack cuda-keyring_1.1-1_all.deb ...
+Unpacking cuda-keyring (1.1-1) ...
+Setting up cuda-keyring (1.1-1) ...
+Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu noble InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+Get:5 https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64  InRelease [1581 B]
+Get:6 https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64  Packages [811 kB]
+Fetched 813 kB in 9s (93.6 kB/s)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+4 packages can be upgraded. Run 'apt list --upgradable' to see them.
+
+
