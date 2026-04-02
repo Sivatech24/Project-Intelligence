@@ -28,9 +28,9 @@ Supporting media such as images or videos
 
 Overall, the goal is to contribute toward building AI systems that learn like humans flexible, efficient, and capable of handling new and changing problems while also providing a clear and complete explanation of the solution for others to understand and build upon.
 
-License:
+# License:
 
-Copyright [2026] [sivatech24]]
+Copyright [2026] [sivatech24]
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
