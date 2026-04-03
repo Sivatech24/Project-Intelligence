@@ -1,4 +1,4 @@
-Architecture Overview:
+# Architecture Overview:
 
 Train Examples
      ↓
@@ -10,3 +10,9 @@ Adapt on Test (Test-time training)
      ↓
 Predict Output Grid
 
+# Key Components:
+
+1. Grid → Image representation
+2. Neural model (CNN / Transformer)
+3. Task-specific training (very important)
+4. Prediction
