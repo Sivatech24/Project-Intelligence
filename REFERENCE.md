@@ -1,10 +1,8 @@
-# Search Topics:
-
-past present future thoughts process brain
-chain of thoughts
-can model use of the dynamic thinking
-
 # Referenced Websites:
+
+https://arxiv.org/html/2511.14761v1
+
+https://www.paulfletcherhill.com/mini-arc.pdf
 
 https://wandb.ai/sauravmaheshkar/prompting-techniques/reports/Chain-of-thought-tree-of-thought-and-graph-of-thought-Prompting-techniques-explained---Vmlldzo4MzQwNjMx
 
@@ -14,4 +12,9 @@ https://medium.com/random-agile-thoughts/random-agile-thoughts-static-and-dynami
 
 https://github.com/neurallambda/arc-like/tree/master
 
-https://arxiv.org/html/2511.14761v1
+
+# Search Topics:
+
+past present future thoughts process brain
+chain of thoughts
+can model use of the dynamic thinking
