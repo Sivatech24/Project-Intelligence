@@ -4,6 +4,8 @@ https://arxiv.org/html/2511.14761v1
 
 https://www.paulfletcherhill.com/mini-arc.pdf
 
+https://lab42.global/arc/
+
 https://wandb.ai/sauravmaheshkar/prompting-techniques/reports/Chain-of-thought-tree-of-thought-and-graph-of-thought-Prompting-techniques-explained---Vmlldzo4MzQwNjMx
 
 https://thesystemsthinker.com/dynamic-thinking-a-behavioral-context/
