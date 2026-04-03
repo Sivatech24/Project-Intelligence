@@ -34,3 +34,15 @@ Predicted Output:
  [[3 1 2]
  [2 3 1]
  [1 2 3]]
+
+ARC Solver.py:
+
+Found rule: color_map
+
+Input:
+ [[2 0]
+ [1 2]]
+
+Output:
+ [[2 1]
+ [2 2]]
