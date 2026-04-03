@@ -13,3 +13,5 @@ https://thesystemsthinker.com/dynamic-thinking-a-behavioral-context/
 https://medium.com/random-agile-thoughts/random-agile-thoughts-static-and-dynamic-models-7fceb8f0d951
 
 https://github.com/neurallambda/arc-like/tree/master
+
+https://arxiv.org/html/2511.14761v1
