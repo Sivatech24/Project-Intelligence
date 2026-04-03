@@ -46,3 +46,13 @@ Input:
 Output:
  [[2 1]
  [2 2]]
+
+Hybrid ARC Solver.py:
+
+Input:
+ [[2 0]
+ [1 2]]
+
+Predicted Output:
+ [[1 1]
+ [2 1]]
