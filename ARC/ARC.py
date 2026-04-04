@@ -10,3 +10,6 @@ def subtract_one(grid):
 
 def flip_horizontal(grid):
     return np.fliplr(grid)
+
+def flip_vertical(grid):
+    return np.flipud(grid)
