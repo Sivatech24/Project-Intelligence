@@ -60,3 +60,45 @@ def conditional_coloring_binarize(grid):
 def color_mapping_generic(grid):
     """Placeholder for a generic color mapping rule."""
     return grid.copy() # Placeholder
+
+# -----------------------------
+# SEGMENT B: SPATIAL TRANSFORMATION RULES
+# -----------------------------
+
+def rotate_90_clockwise(grid):
+    return np.rot90(grid, k=-1) # k=-1 is clockwise
+
+def reflection_horizontal(grid):
+    return np.fliplr(grid)
+
+def reflection_vertical(grid):
+    return np.flipud(grid)
+
+def translation_shift_right(grid):
+    """Shifts all pixels one position to the right."""
+    return np.roll(grid, shift=1, axis=1)
+
+def translation_shift_left(grid):
+    """Placeholder: Shifts all pixels one position to the left."""
+    return np.roll(grid, shift=-1, axis=1) # Placeholder
+
+def translation_shift_up(grid):
+    """Placeholder: Shifts all pixels one position up."""
+    return np.roll(grid, shift=-1, axis=0) # Placeholder
+
+def translation_shift_down(grid):
+    """Placeholder: Shifts all pixels one position down."""
+    return np.roll(grid, shift=1, axis=0) # Placeholder
+
+def cropping_remove_background(grid):
+    """Crops the grid to the bounding box of all non-zero pixels."""
+    if np.all(grid == 0): return grid
+    rows = np.any(grid, axis=1)
+    cols = np.any(grid, axis=0)
+    rmin, rmax = np.where(rows)[0][[0, -1]]
+    cmin, cmax = np.where(cols)[0][[0, -1]]
+    return grid[rmin:rmax+1, cmin:cmax+1]
+
+def resizing_generic(grid):
+    """Placeholder for a generic resizing rule."""
+    return grid.copy() # Placeholder
