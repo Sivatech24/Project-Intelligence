@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.ndimage import label, find_objects
+from scipy.ndimage import label, find_objects, binary_erosion
 
 # -----------------------------
 # 1. RULE DEFINITIONS
@@ -22,3 +22,4 @@ def rotate_90(grid):
 
 def rotate_180(grid):
     return np.rot90(grid, 2)
+
