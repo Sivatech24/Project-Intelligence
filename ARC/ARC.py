@@ -102,3 +102,61 @@ def cropping_remove_background(grid):
 def resizing_generic(grid):
     """Placeholder for a generic resizing rule."""
     return grid.copy() # Placeholder
+
+# -----------------------------
+# SEGMENT C: OBJECT-BASED RULES
+# -----------------------------
+
+def object_detection_isolate_largest(grid):
+    """Returns a grid containing ONLY the largest object, removing the rest."""
+    labeled_grid, num_features = get_objects(grid)
+    if num_features == 0: return grid
+
+    # Count sizes of each labeled object
+    sizes = np.bincount(labeled_grid.ravel())
+    sizes[0] = 0 # Ignore background
+    largest_label = sizes.argmax()
+
+    return np.where(labeled_grid == largest_label, grid, 0)
+
+def object_detection_generic(grid):
+    """Placeholder for a generic object detection rule."""
+    return grid.copy() # Placeholder
+
+def object_counting_to_pixel(grid):
+    """Counts objects and outputs a 1x1 grid with that number."""
+    _, num_features = get_objects(grid)
+    return np.array([[num_features]])
+
+def object_movement(grid):
+    """Placeholder for a rule that moves objects."""
+    return grid.copy() # Placeholder
+
+def object_duplication(grid):
+    """Placeholder for a rule that duplicates objects."""
+    return grid.copy() # Placeholder
+
+def object_scaling(grid):
+    """Placeholder for a rule that scales objects."""
+    return grid.copy() # Placeholder
+
+def object_alignment_push_left(grid):
+    """Pushes all pixels as far left as possible in their respective rows."""
+    new_grid = np.zeros_like(grid)
+    for r in range(grid.shape[0]):
+        row = grid[r]
+        non_zeros = row[row != 0]
+        new_grid[r, :len(non_zeros)] = non_zeros
+    return new_grid
+
+def object_alignment_push_right(grid):
+    """Placeholder: Pushes all pixels as far right as possible."""
+    return grid.copy() # Placeholder
+
+def object_alignment_push_top(grid):
+    """Placeholder: Pushes all pixels as far top as possible."""
+    return grid.copy() # Placeholder
+
+def object_alignment_push_bottom(grid):
+    """Placeholder: Pushes all pixels as far bottom as possible."""
+    return grid.copy() # Placeholder
