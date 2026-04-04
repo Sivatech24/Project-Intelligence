@@ -13,3 +13,6 @@ def flip_horizontal(grid):
 
 def flip_vertical(grid):
     return np.flipud(grid)
+
+def rotate_90(grid):
+    return np.rot90(grid)
