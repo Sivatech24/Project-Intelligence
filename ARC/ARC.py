@@ -348,3 +348,29 @@ RULES = [
     ("goal_directed", goal_directed_behavior)
 ]
 
+# -----------------------------
+# RULE MATCHING ENGINE
+# -----------------------------
+
+def find_rule(train_input, train_output):
+    first_matching_rule = None
+    print("\n--- Evaluating All Rules for Train Example ---")
+    for name, rule in RULES:
+        start_time = time.time()
+        try:
+            predicted = rule(train_input)
+            end_time = time.time()
+            execution_time = (end_time - start_time) * 1000 # in milliseconds
+            if np.array_equal(predicted, train_output):
+                print(f"Rule: {name} (MATCHED - {execution_time:.2f} ms)")
+                if first_matching_rule is None:
+                    first_matching_rule = rule
+            else:
+                print(f"Rule: {name} (NO MATCH - {execution_time:.2f} ms)")
+        except Exception as e:
+            end_time = time.time()
+            execution_time = (end_time - start_time) * 1000 # in milliseconds
+            print(f"Rule: {name} (ERROR - {execution_time:.2f} ms): {e}")
+            continue
+    print("--- End Rule Evaluation ---\n")
+    return first_matching_rule
