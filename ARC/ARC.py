@@ -391,3 +391,26 @@ def solve_arc(train_input, train_output, test_input):
     result = rule(test_input)
     return result
 
+# -----------------------------
+# TEST CASE
+# -----------------------------
+
+# Training example
+train_input = np.array([
+    [0, 1, 0],
+    [1, 0, 1],
+    [0, 1, 0]
+])
+
+train_output = np.array([
+    [1, 2, 1],
+    [2, 1, 2],
+    [1, 2, 1]
+])
+
+# Test input
+test_input = np.array([
+    [2, 0, 1],
+    [1, 2, 0],
+    [0, 1, 2]
+])
