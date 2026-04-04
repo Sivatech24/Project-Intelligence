@@ -34,3 +34,29 @@ def rotate_180(grid):
 def identity(grid):
     """Returns the grid unchanged."""
     return grid.copy()
+
+# -----------------------------
+# SEGMENT A: COLOR TRANSFORMATION RULES
+# -----------------------------
+
+def color_mapping_swap_most_least(grid):
+    """Swaps the most frequent color with the least frequent color (ignoring 0/background)."""
+    if np.all(grid == 0): return grid
+    unique, counts = np.unique(grid[grid != 0], return_counts=True)
+    if len(unique) < 2: return grid.copy()
+
+    most_frequent = unique[np.argmax(counts)]
+    least_frequent = unique[np.argmin(counts)]
+
+    new_grid = grid.copy()
+    new_grid[grid == most_frequent] = least_frequent
+    new_grid[grid == least_frequent] = most_frequent
+    return new_grid
+
+def conditional_coloring_binarize(grid):
+    """Turns all non-zero pixels to 1 (useful for silhouetting)."""
+    return np.where(grid > 0, 1, 0)
+
+def color_mapping_generic(grid):
+    """Placeholder for a generic color mapping rule."""
+    return grid.copy() # Placeholder
