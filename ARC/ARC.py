@@ -277,3 +277,74 @@ def goal_directed_behavior(grid):
     """
     # Placeholder: Returns input safely.
     return grid.copy()
+
+# -----------------------------
+# RULE COMPILATION LIST
+# -----------------------------
+
+RULES = [
+    # Base Rules (from the provided base code)
+    ("add_one", add_one),
+    ("subtract_one", subtract_one),
+    ("flip_horizontal", flip_horizontal),
+    ("flip_vertical", flip_vertical),
+    ("rotate_90_base", rotate_90), # Renamed to avoid clash with rotate_90_clockwise
+    ("rotate_180", rotate_180),
+    ("identity", identity),
+
+    # Color Transformation Rules
+    ("color_swap_most_least", color_mapping_swap_most_least),
+    ("conditional_binarize", conditional_coloring_binarize),
+    ("color_mapping_generic", color_mapping_generic),
+
+    # Spatial Transformation Rules
+    ("rotate_90", rotate_90_clockwise),
+    ("reflect_horiz", reflection_horizontal),
+    ("reflect_vert", reflection_vertical),
+    ("shift_right", translation_shift_right),
+    ("shift_left", translation_shift_left),
+    ("shift_up", translation_shift_up),
+    ("shift_down", translation_shift_down),
+    ("crop_background", cropping_remove_background),
+    ("resizing_generic", resizing_generic),
+
+    # Object-Based Rules
+    ("isolate_largest_object", object_detection_isolate_largest),
+    ("object_detection_generic", object_detection_generic),
+    ("count_objects", object_counting_to_pixel),
+    ("object_movement", object_movement),
+    ("object_duplication", object_duplication),
+    ("object_scaling", object_scaling),
+    ("align_push_left", object_alignment_push_left),
+    ("align_push_right", object_alignment_push_right),
+    ("align_push_top", object_alignment_push_top),
+    ("align_push_bottom", object_alignment_push_bottom),
+
+    # Pattern & Symmetry Rules
+    ("symmetry_mirror", symmetry_creation_mirror_right),
+    ("pattern_repetition", pattern_repetition),
+    ("tile_2x2", grid_tiling_2x2),
+
+    # Logical / Conditional & Math Rules
+    ("conditional_rule_example", conditional_rule_example),
+    ("count_total_pixels", counting_total_pixels),
+    ("arithmetic_x2", arithmetic_multiply_by_two),
+    ("arithmetic_generic", arithmetic_generic),
+
+    # Geometry, Shape & Noise Rules
+    ("shape_detection", shape_detection),
+    ("shape_completion", shape_completion),
+    ("shortest_path", shortest_path),
+    ("grid_partitioning", grid_partitioning),
+    ("projection", projection),
+    ("extract_edges", border_rules_extract_edges),
+    ("remove_single_pixels", remove_noise_single_pixels),
+    ("keep_important_objects", keep_important_objects),
+
+    # Multi-Step & Meta Rules
+    ("crop_and_rotate", rule_composition_crop_and_rotate),
+    ("analogy", analogy_solver),
+    ("relational_reasoning", relational_reasoning),
+    ("goal_directed", goal_directed_behavior)
+]
+
