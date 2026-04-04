@@ -414,3 +414,12 @@ test_input = np.array([
     [1, 2, 0],
     [0, 1, 2]
 ])
+
+# -----------------------------
+# RUN SOLVER
+# -----------------------------
+
+result = solve_arc(train_input, train_output, test_input)
+
+print("\nTest Input:\n", test_input)
+print("\nPredicted Output:\n", result)
