@@ -177,3 +177,24 @@ def pattern_repetition(grid):
 def grid_tiling_2x2(grid):
     """Tiles the current grid into a 2x2 larger grid."""
     return np.tile(grid, (2, 2))
+
+# -----------------------------
+# SEGMENT E: LOGICAL / CONDITIONAL & MATH
+# -----------------------------
+
+def conditional_rule_example(grid):
+    """Placeholder for an if-else logic rule example."""
+    return grid.copy() # Placeholder
+
+def counting_total_pixels(grid):
+    """Returns 1x1 grid of total non-zero pixels."""
+    return np.array([[np.count_nonzero(grid)]])
+
+def arithmetic_multiply_by_two(grid):
+    """Multiplies all pixel values (colors) by 2."""
+    # Modulo 10 because ARC colors are usually 0-9
+    return (grid * 2) % 10
+
+def arithmetic_generic(grid):
+    """Placeholder for a generic arithmetic operation."""
+    return grid.copy() # Placeholder
