@@ -374,3 +374,20 @@ def find_rule(train_input, train_output):
             continue
     print("--- End Rule Evaluation ---\n")
     return first_matching_rule
+
+# -----------------------------
+# SOLVER FUNCTION
+# -----------------------------
+
+def solve_arc(train_input, train_output, test_input):
+    rule = find_rule(train_input, train_output)
+
+    print(f"solve_arc received rule: {rule.__name__ if rule else 'None'}") # Added for debugging
+
+    if rule is None:
+        print("No matching rule found")
+        return None
+
+    result = rule(test_input)
+    return result
+
