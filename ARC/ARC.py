@@ -198,3 +198,53 @@ def arithmetic_multiply_by_two(grid):
 def arithmetic_generic(grid):
     """Placeholder for a generic arithmetic operation."""
     return grid.copy() # Placeholder
+
+# -----------------------------
+# SEGMENT F: GEOMETRY, SHAPE & NOISE
+# -----------------------------
+
+def shape_detection(grid):
+    """Placeholder for a rule that detects specific shapes."""
+    return grid.copy() # Placeholder
+
+def shape_completion(grid):
+    """Placeholder for a rule that completes shapes."""
+    return grid.copy() # Placeholder
+
+def shortest_path(grid):
+    """Placeholder for a shortest path or path drawing rule."""
+    return grid.copy() # Placeholder
+
+def grid_partitioning(grid):
+    """Placeholder for a rule that partitions the grid."""
+    return grid.copy() # Placeholder
+
+def projection(grid):
+    """Placeholder for a rule that projects grid elements."""
+    return grid.copy() # Placeholder
+
+def border_rules_extract_edges(grid):
+    """Keeps only the outer edges of shapes, hollowing them out."""
+    if np.all(grid == 0): return grid
+
+    mask = grid != 0
+    eroded = binary_erosion(mask)
+    edges = mask ^ eroded # XOR to find difference
+    return np.where(edges, grid, 0)
+
+def remove_noise_single_pixels(grid):
+    """Removes stray single pixels (objects of size 1)."""
+    labeled_grid, num_features = get_objects(grid)
+    sizes = np.bincount(labeled_grid.ravel())
+    noise_labels = np.where(sizes == 1)[0]
+
+    new_grid = grid.copy()
+    for label_idx in noise_labels:
+        if label_idx == 0: continue
+        new_grid[labeled_grid == label_idx] = 0
+    return new_grid
+
+def keep_important_objects(grid):
+    """Placeholder for a rule that keeps only important objects (e.g., based on size, color)."""
+    return grid.copy() # Placeholder
+
