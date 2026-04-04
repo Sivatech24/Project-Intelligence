@@ -160,3 +160,20 @@ def object_alignment_push_top(grid):
 def object_alignment_push_bottom(grid):
     """Placeholder: Pushes all pixels as far bottom as possible."""
     return grid.copy() # Placeholder
+
+# -----------------------------
+# SEGMENT D: PATTERN & SYMMETRY RULES
+# -----------------------------
+
+def symmetry_creation_mirror_right(grid):
+    """Takes the grid and mirrors it to the right, doubling its width."""
+    mirrored = np.fliplr(grid)
+    return np.hstack((grid, mirrored))
+
+def pattern_repetition(grid):
+    """Placeholder for a rule that repeats patterns."""
+    return grid.copy() # Placeholder
+
+def grid_tiling_2x2(grid):
+    """Tiles the current grid into a 2x2 larger grid."""
+    return np.tile(grid, (2, 2))
