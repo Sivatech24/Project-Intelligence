@@ -1,6 +1,13 @@
 import numpy as np
 from scipy.ndimage import label, find_objects, binary_erosion
 
+# --- Helper Functions ---
+def get_objects(grid):
+    """Helper: Identifies isolated shapes (objects) in a grid."""
+    # Assuming 0 is background. Label contiguous non-zero pixels.
+    labeled_grid, num_features = label(grid != 0)
+    return labeled_grid, num_features
+
 # -----------------------------
 # 1. RULE DEFINITIONS
 # -----------------------------
