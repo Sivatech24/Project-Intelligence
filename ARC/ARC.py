@@ -31,3 +31,6 @@ def rotate_90(grid):
 def rotate_180(grid):
     return np.rot90(grid, 2)
 
+def identity(grid):
+    """Returns the grid unchanged."""
+    return grid.copy()
