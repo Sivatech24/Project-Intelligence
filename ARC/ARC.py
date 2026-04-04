@@ -1,3 +1,6 @@
+import numpy as np
+from scipy.ndimage import label, find_objects
+
 # -----------------------------
 # 1. RULE DEFINITIONS
 # -----------------------------
