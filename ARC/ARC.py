@@ -7,3 +7,6 @@ def add_one(grid):
 
 def subtract_one(grid):
     return grid - 1
+
+def flip_horizontal(grid):
+    return np.fliplr(grid)
