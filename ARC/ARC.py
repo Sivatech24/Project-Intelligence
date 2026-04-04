@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.ndimage import label, find_objects, binary_erosion
+import time
 
 # --- Helper Functions ---
 def get_objects(grid):
