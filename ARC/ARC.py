@@ -248,3 +248,32 @@ def keep_important_objects(grid):
     """Placeholder for a rule that keeps only important objects (e.g., based on size, color)."""
     return grid.copy() # Placeholder
 
+# -----------------------------
+# SEGMENT G: MULTI-STEP & META RULES
+# -----------------------------
+
+def rule_composition_crop_and_rotate(grid):
+    """Executes cropping, then rotates."""
+    cropped = cropping_remove_background(grid)
+    return rotate_90_clockwise(cropped)
+
+def analogy_solver(grid):
+    """
+    ABSTRACT RULE: "A is to B as C is to D"
+    Cannot be solved via deterministic single-grid function.
+    Requires the engine to analyze the relationships between train_input and train_output.
+    """
+    # Placeholder: Returns input safely to avoid crashing the engine.
+    return grid.copy()
+
+def relational_reasoning(grid):
+    """Placeholder for abstract relational reasoning."""
+    return grid.copy() # Placeholder
+
+def goal_directed_behavior(grid):
+    """
+    ABSTRACT RULE: e.g., "Move blue dot to red square."
+    Requires pathfinding (A* algorithm) and semantic labeling.
+    """
+    # Placeholder: Returns input safely.
+    return grid.copy()
