@@ -2,7 +2,7 @@
 
 ### True Intelligence, meaning the ability to generalize knowledge, think logically, and solve unseen problems efficiently.
 
-## Project Goal Description
+## Project Goal Abstraction and Reasoning Corpus for Artificial General Intelligence Description
 
 The goal of this project is to design and explain an artificial intelligence system that can solve completely new problems it has never seen before, rather than relying on memorized patterns or previously learned examples.
 
