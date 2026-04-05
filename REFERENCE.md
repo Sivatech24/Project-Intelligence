@@ -1,5 +1,7 @@
 # Referenced Websites:
 
+https://arxiv.org/abs/2510.04871
+
 https://arxiv.org/html/2511.14761v1
 
 https://www.paulfletcherhill.com/mini-arc.pdf
