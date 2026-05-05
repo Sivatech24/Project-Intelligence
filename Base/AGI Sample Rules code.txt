@@ -1,0 +1,414 @@
+#1
+
+import torch
+
+# Select device (GPU if available)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# -----------------------------
+# 1. RULE DEFINITIONS (PyTorch)
+# -----------------------------
+
+def add_one(grid):
+    return grid + 1
+
+def subtract_one(grid):
+    return grid - 1
+
+def flip_horizontal(grid):
+    # Flip left-right (columns)
+    return torch.flip(grid, dims=[1])
+
+def flip_vertical(grid):
+    # Flip top-bottom (rows)
+    return torch.flip(grid, dims=[0])
+
+def rotate_90(grid):
+    return torch.rot90(grid, k=1, dims=[0, 1])
+
+def rotate_180(grid):
+    return torch.rot90(grid, k=2, dims=[0, 1])
+
+def identity(grid):
+    """Returns the grid unchanged."""
+    return grid.clone()
+
+
+# -----------------------------
+# Example usage
+# -----------------------------
+if __name__ == "__main__":
+    # Create a sample grid and move to GPU
+    grid = torch.tensor([[1, 2],
+                         [3, 4]], dtype=torch.float32).to(device)
+
+    print("Original:\n", grid)
+
+    print("Add one:\n", add_one(grid))
+    print("Flip horizontal:\n", flip_horizontal(grid))
+    print("Rotate 90:\n", rotate_90(grid))
+
+# 2
+
+import torch
+
+def color_mapping_swap_most_least(grid: torch.Tensor) -> torch.Tensor:
+    """Swaps the most frequent color with the least frequent color (ignoring 0/background)."""
+    # Quick check if all zeros (works natively on CUDA)
+    if torch.all(grid == 0): 
+        return grid.clone()
+    
+    # Filter out the background (0)
+    non_zero_elements = grid[grid != 0]
+    
+    # Get unique elements and their counts
+    unique, counts = torch.unique(non_zero_elements, return_counts=True)
+    
+    if len(unique) < 2: 
+        return grid.clone()
+
+    # Find the most and least frequent values
+    most_frequent = unique[torch.argmax(counts)]
+    least_frequent = unique[torch.argmin(counts)]
+
+    # Clone to avoid in-place modification issues with autograd (if applicable)
+    new_grid = grid.clone()
+    
+    # Swap the values
+    new_grid[grid == most_frequent] = least_frequent
+    new_grid[grid == least_frequent] = most_frequent
+    
+    return new_grid
+
+def conditional_coloring_binarize(grid: torch.Tensor) -> torch.Tensor:
+    """Turns all non-zero pixels to 1 (useful for silhouetting)."""
+    # This is significantly faster on CUDA than using torch.where
+    # It creates a boolean mask and casts it back to the original tensor's data type
+    return (grid > 0).to(dtype=grid.dtype)
+
+def color_mapping_generic(grid: torch.Tensor) -> torch.Tensor:
+    """Placeholder for a generic color mapping rule."""
+    # Use .clone() instead of .copy() in PyTorch
+    return grid.clone()
+
+# 3
+
+import torch
+
+def rotate_90_clockwise(grid: torch.Tensor) -> torch.Tensor:
+    # dims=(0, 1) specifies the height and width axes
+    return torch.rot90(grid, k=-1, dims=(0, 1))
+
+def reflection_horizontal(grid: torch.Tensor) -> torch.Tensor:
+    # Flips along the width axis (dimension 1)
+    return torch.flip(grid, dims=[1])
+
+def reflection_vertical(grid: torch.Tensor) -> torch.Tensor:
+    # Flips along the height axis (dimension 0)
+    return torch.flip(grid, dims=[0])
+
+def translation_shift_right(grid: torch.Tensor) -> torch.Tensor:
+    return torch.roll(grid, shifts=1, dims=1)
+
+def translation_shift_left(grid: torch.Tensor) -> torch.Tensor:
+    return torch.roll(grid, shifts=-1, dims=1)
+
+def translation_shift_up(grid: torch.Tensor) -> torch.Tensor:
+    return torch.roll(grid, shifts=-1, dims=0)
+
+def translation_shift_down(grid: torch.Tensor) -> torch.Tensor:
+    return torch.roll(grid, shifts=1, dims=0)
+
+def cropping_remove_background(grid: torch.Tensor) -> torch.Tensor:
+    """Crops the grid to the bounding box of all non-zero pixels using CUDA-optimized logic."""
+    if torch.all(grid == 0): 
+        return grid.clone()
+    
+    # Find indices where values are non-zero
+    # .nonzero() is efficient on GPU for sparse grids
+    coords = torch.nonzero(grid)
+    
+    # coords is a tensor of [row, col] pairs
+    rmin, cmin = coords.min(dim=0).values
+    rmax, cmax = coords.max(dim=0).values
+    
+    # Slice the original grid
+    return grid[rmin:rmax+1, cmin:cmax+1]
+
+def resizing_generic(grid: torch.Tensor) -> torch.Tensor:
+    """Placeholder for a generic resizing rule."""
+    return grid.clone()
+
+# 4
+
+import torch
+
+def get_objects_torch(grid: torch.Tensor):
+    """
+    CUDA-compatible connected component labeling for small 2D grids.
+    Returns: (labeled_grid, num_features)
+    """
+    if torch.all(grid == 0):
+        return torch.zeros_like(grid), 0
+    
+    h, w = grid.shape
+    # Initialize each non-zero pixel with a unique ID (its flattened index)
+    labels = torch.arange(h * w, device=grid.device).view(h, w) + 1
+    labels[grid == 0] = 0
+    
+    # Iteratively spread labels (4-connectivity)
+    # For ARC-sized grids, this converges very quickly
+    for _ in range(max(h, w)):
+        old_labels = labels.clone()
+        # Look at neighbors (Up, Down, Left, Right)
+        padded = torch.nn.functional.pad(labels, (1, 1, 1, 1), mode='constant', value=0)
+        
+        # Take the maximum label in the neighborhood for connected non-zero pixels
+        neighbors = torch.stack([
+            padded[1:-1, 1:-1], # Center
+            padded[:-2, 1:-1],  # Up
+            padded[2:, 1:-1],   # Down
+            padded[1:-1, :-2],  # Left
+            padded[1:-1, 2:]    # Right
+        ])
+        
+        # Only update labels for pixels that were originally non-zero
+        new_max = neighbors.max(dim=0).values
+        labels = torch.where(grid != 0, new_max, torch.zeros_like(labels))
+        
+        if torch.equal(labels, old_labels):
+            break
+            
+    # Relabel to contiguous integers (1, 2, 3...)
+    unique_labels = torch.unique(labels[labels > 0])
+    num_features = unique_labels.size(0)
+    
+    # Map the sparse IDs to 1..N
+    final_labels = torch.zeros_like(labels)
+    for i, val in enumerate(unique_labels):
+        final_labels[labels == val] = i + 1
+        
+    return final_labels, num_features
+
+# 5
+
+def object_detection_isolate_largest(grid: torch.Tensor) -> torch.Tensor:
+    """Returns a grid containing ONLY the largest object, removing the rest."""
+    labeled_grid, num_features = get_objects_torch(grid)
+    if num_features == 0: 
+        return grid.clone()
+
+    # bincount finds the size of each label
+    sizes = torch.bincount(labeled_grid.flatten())
+    sizes[0] = 0  # Ignore background
+    largest_label = torch.argmax(sizes)
+
+    return torch.where(labeled_grid == largest_label, grid, torch.zeros_like(grid))
+
+def object_counting_to_pixel(grid: torch.Tensor) -> torch.Tensor:
+    """Counts objects and outputs a 1x1 grid with that number."""
+    _, num_features = get_objects_torch(grid)
+    # Returns a 1x1 tensor on the same device
+    return torch.tensor([[num_features]], device=grid.device, dtype=grid.dtype)
+
+def object_alignment_push_left(grid: torch.Tensor) -> torch.Tensor:
+    """Pushes all pixels as far left as possible using a stable sort trick."""
+    # Create a mask where non-zero = 1, zero = 0
+    mask = (grid != 0).to(torch.long)
+    
+    # Stable sort the mask descending along rows.
+    # Because it's a stable sort, non-zero elements stay in their original relative order
+    # but are moved to the front because 1 > 0.
+    _, indices = torch.sort(mask, dim=1, descending=True, stable=True)
+    
+    # Gather the values from the original grid using the sorted indices
+    return torch.gather(grid, 1, indices)
+
+def object_alignment_push_right(grid: torch.Tensor) -> torch.Tensor:
+    """Pushes all pixels as far right as possible."""
+    mask = (grid != 0).to(torch.long)
+    # Sort ascending: zeros move to the front, non-zeros move to the back
+    _, indices = torch.sort(mask, dim=1, descending=False, stable=True)
+    return torch.gather(grid, 1, indices)
+
+def object_alignment_push_top(grid: torch.Tensor) -> torch.Tensor:
+    """Pushes all pixels as far top as possible."""
+    mask = (grid != 0).to(torch.long)
+    # Sort along dim 0 (vertical)
+    _, indices = torch.sort(mask, dim=0, descending=True, stable=True)
+    return torch.gather(grid, 0, indices)
+
+def object_alignment_push_bottom(grid: torch.Tensor) -> torch.Tensor:
+    """Pushes all pixels as far bottom as possible."""
+    mask = (grid != 0).to(torch.long)
+    _, indices = torch.sort(mask, dim=0, descending=False, stable=True)
+    return torch.gather(grid, 0, indices)
+
+# --- Placeholders ---
+def object_detection_generic(grid: torch.Tensor): return grid.clone()
+def object_movement(grid: torch.Tensor): return grid.clone()
+def object_duplication(grid: torch.Tensor): return grid.clone()
+def object_scaling(grid: torch.Tensor): return grid.clone()
+
+# 6
+
+import torch
+
+def symmetry_creation_mirror_right(grid: torch.Tensor) -> torch.Tensor:
+    """Takes the grid and mirrors it to the right, doubling its width."""
+    # Flip along the width dimension (dim 1)
+    mirrored = torch.flip(grid, dims=[1])
+    
+    # Concatenate along the width dimension (dim 1)
+    # torch.cat is the equivalent of np.hstack (dim 1) or np.vstack (dim 0)
+    return torch.cat((grid, mirrored), dim=1)
+
+def pattern_repetition(grid: torch.Tensor) -> torch.Tensor:
+    """Placeholder for a rule that repeats patterns."""
+    return grid.clone()
+
+def grid_tiling_2x2(grid: torch.Tensor) -> torch.Tensor:
+    """Tiles the current grid into a 2x2 larger grid."""
+    # .repeat(y_times, x_times) is the direct equivalent of np.tile
+    # This operation is extremely fast on CUDA
+    return grid.repeat(2, 2)
+
+# 7
+
+import torch
+
+def conditional_rule_example(grid: torch.Tensor) -> torch.Tensor:
+    """Placeholder for an if-else logic rule example."""
+    # Use .clone() to ensure a deep copy on the same CUDA device
+    return grid.clone()
+
+def counting_total_pixels(grid: torch.Tensor) -> torch.Tensor:
+    """Returns 1x1 grid of total non-zero pixels."""
+    # count_nonzero is highly optimized for GPU
+    count = torch.count_nonzero(grid)
+    
+    # Reshape to a 1x1 tensor and match the input's dtype and device
+    return count.view(1, 1).to(dtype=grid.dtype, device=grid.device)
+
+def arithmetic_multiply_by_two(grid: torch.Tensor) -> torch.Tensor:
+    """Multiplies all pixel values (colors) by 2."""
+    # Standard arithmetic operations are automatically parallelized on CUDA
+    # ARC colors are traditionally 0-9, so modulo 10 keeps them in range
+    return (grid * 2) % 10
+
+def arithmetic_generic(grid: torch.Tensor) -> torch.Tensor:
+    """Placeholder for a generic arithmetic operation."""
+    return grid.clone()
+
+# 8
+
+import torch
+import torch.nn.functional as F
+
+def binary_erosion_torch(mask: torch.Tensor) -> torch.Tensor:
+    """Standard binary erosion using a 3x3 structuring element on CUDA."""
+    # Add batch and channel dimensions for conv2d: [1, 1, H, W]
+    x = mask.float().unsqueeze(0).unsqueeze(0)
+    
+    # Kernel of 1s to count neighbors
+    kernel = torch.ones((1, 1, 3, 3), device=mask.device)
+    
+    # A pixel stays 1 only if all 9 pixels in the 3x3 neighborhood were 1
+    eroded = F.conv2d(x, kernel, padding=1) == 9
+    return eroded.squeeze()
+
+def get_objects_torch(grid: torch.Tensor):
+    """Iterative connected component labeling for CUDA."""
+    if torch.all(grid == 0): return torch.zeros_like(grid), 0
+    h, w = grid.shape
+    labels = torch.arange(h * w, device=grid.device).view(h, w) + 1
+    labels[grid == 0] = 0
+    for _ in range(max(h, w)):
+        old_labels = labels.clone()
+        padded = F.pad(labels, (1, 1, 1, 1), mode='constant', value=0)
+        neighbors = torch.stack([
+            padded[1:-1, 1:-1], padded[:-2, 1:-1], 
+            padded[2:, 1:-1], padded[1:-1, :-2], padded[1:-1, 2:]
+        ])
+        labels = torch.where(grid != 0, neighbors.max(dim=0).values, torch.zeros_like(labels))
+        if torch.equal(labels, old_labels): break
+    unique_labels = torch.unique(labels[labels > 0])
+    final_labels = torch.zeros_like(labels)
+    for i, val in enumerate(unique_labels):
+        final_labels[labels == val] = i + 1
+    return final_labels, len(unique_labels)
+
+def border_rules_extract_edges(grid: torch.Tensor) -> torch.Tensor:
+    """Keeps only the outer edges of shapes, hollowing them out."""
+    if torch.all(grid == 0): 
+        return grid.clone()
+
+    mask = grid != 0
+    eroded = binary_erosion_torch(mask)
+    
+    # XOR logic: mask is 1 and eroded is 0 means it's an edge
+    edges = mask ^ eroded 
+    
+    # Return original colors where edges exist, else 0
+    return torch.where(edges, grid, torch.zeros_like(grid))
+
+def remove_noise_single_pixels(grid: torch.Tensor) -> torch.Tensor:
+    """Removes stray single pixels (objects of size 1)."""
+    labeled_grid, num_features = get_objects_torch(grid)
+    if num_features == 0:
+        return grid.clone()
+
+    # Get sizes of all labels
+    sizes = torch.bincount(labeled_grid.flatten())
+    
+    # Identify labels that have exactly 1 pixel
+    # We ignore index 0 (background)
+    noise_mask = (sizes == 1)
+    noise_mask[0] = False 
+    
+    # Create a mask of pixels to be removed
+    # labels_to_remove is a boolean mask of the grid size
+    remove_indices = noise_mask[labeled_grid]
+    
+    new_grid = grid.clone()
+    new_grid[remove_indices] = 0
+    return new_grid
+
+# --- Placeholders ---
+def shape_detection(grid: torch.Tensor): return grid.clone()
+def shape_completion(grid: torch.Tensor): return grid.clone()
+def shortest_path(grid: torch.Tensor): return grid.clone()
+def grid_partitioning(grid: torch.Tensor): return grid.clone()
+def projection(grid: torch.Tensor): return grid.clone()
+def keep_important_objects(grid: torch.Tensor): return grid.clone()
+
+# 9
+
+import torch
+
+def rule_composition_crop_and_rotate(grid: torch.Tensor) -> torch.Tensor:
+    """Executes cropping, then rotates. All operations remain on CUDA."""
+    # Reusing the optimized functions defined previously
+    cropped = cropping_remove_background(grid)
+    return rotate_90_clockwise(cropped)
+
+def analogy_solver(grid: torch.Tensor) -> torch.Tensor:
+    """
+    ABSTRACT RULE: "A is to B as C is to D"
+    In a PyTorch pipeline, this usually involves a forward pass 
+    through a latent reasoning block.
+    """
+    # .clone() ensures we don't return a reference that might be 
+    # accidentally modified in-place elsewhere.
+    return grid.clone()
+
+def relational_reasoning(grid: torch.Tensor) -> torch.Tensor:
+    """Placeholder for abstract relational reasoning."""
+    return grid.clone()
+
+def goal_directed_behavior(grid: torch.Tensor) -> torch.Tensor:
+    """
+    ABSTRACT RULE: e.g., "Move blue dot to red square."
+    Requires pathfinding (like a CUDA-optimized A*) or semantic labeling.
+    """
+    return grid.clone()
