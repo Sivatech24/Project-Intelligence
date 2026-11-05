@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it using the metadata below."
+title: "Project-Intelligence: True Intelligence, a recursive-reasoning transformer with verified memory for the Abstraction and Reasoning Corpus (ARC)"
+type: software
+authors:
+  - given-names: "SIVA"
+    family-names: "S"
+    # Add your ORCID (Open Researcher and Contributor Identifier) on the next line, then remove the "#":
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+repository-code: "https://github.com/Sivatech24/Project-Intelligence"
+license: Apache-2.0
+keywords:
+  - abstraction and reasoning corpus
+  - recursive reasoning
+  - transformer
+  - retrieval-augmented generation
+# After you publish a tagged release and Zenodo archives it, add the code DOI here:
+# doi: "10.5281/zenodo.0000000"
