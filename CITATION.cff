@@ -6,7 +6,7 @@ authors:
   - given-names: "SIVA"
     family-names: "S"
     # Add your ORCID (Open Researcher and Contributor Identifier) on the next line, then remove the "#":
-    # orcid: "https://orcid.org/0000-0000-0000-0000"
+    orcid: "https://orcid.org/0009-0004-5358-3366"
 repository-code: "https://github.com/Sivatech24/Project-Intelligence"
 license: Apache-2.0
 keywords:

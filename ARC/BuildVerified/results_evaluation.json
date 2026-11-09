@@ -1,0 +1,35 @@
+{
+  "repo_single": {
+    "tasks": 120,
+    "test_outputs": 167,
+    "outputs_solved": 0,
+    "tasks_fully_solved": 0,
+    "task_mean_score": 0.0,
+    "output_mean_score": 0.0,
+    "tasks_with_any_consistent_program": 1,
+    "solved_task_ids": [],
+    "seconds": 0.1
+  },
+  "repo_all": {
+    "tasks": 120,
+    "test_outputs": 167,
+    "outputs_solved": 0,
+    "tasks_fully_solved": 0,
+    "task_mean_score": 0.0,
+    "output_mean_score": 0.0,
+    "tasks_with_any_consistent_program": 0,
+    "solved_task_ids": [],
+    "seconds": 0.1
+  },
+  "ext_all": {
+    "tasks": 120,
+    "test_outputs": 167,
+    "outputs_solved": 0,
+    "tasks_fully_solved": 0,
+    "task_mean_score": 0.0,
+    "output_mean_score": 0.0,
+    "tasks_with_any_consistent_program": 0,
+    "solved_task_ids": [],
+    "seconds": 14.7
+  }
+}
